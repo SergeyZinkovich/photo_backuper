@@ -35,3 +35,12 @@ def rename_overlapped(tree, files, base_path, dirs=None, dry_run=False, verbose=
                 os.path.join(base_path, path, filename),
                 os.path.join(base_path, path, shortuuid.uuid()) + os.path.splitext(filename)[1]
             )
+
+
+def rename_all(base_path, tree):
+    for path, data in tree.items():
+        for filename in data[1]:
+            os.rename(
+                os.path.join(base_path, path, filename),
+                os.path.join(base_path, path, shortuuid.uuid()) + os.path.splitext(filename)[1]
+            )
