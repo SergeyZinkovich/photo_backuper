@@ -6,14 +6,15 @@ from win32com.propsys import propsys, pscon
 from win32com.shell import shellcon
 
 
-def change_photo_taken_date(filename: str, taken_date: datetime):
+def change_photo_taken_date(filename: str, taken_date: datetime, timezone: str = '+10:00'):
     new_date = taken_date.strftime('%Y:%m:%d %H:%M:%S')
 
     exif_dict = piexif.load(filename)
     exif_dict['0th'][piexif.ImageIFD.DateTime] = new_date
     exif_dict['Exif'][piexif.ExifIFD.DateTimeOriginal] = new_date
     exif_dict['Exif'][piexif.ExifIFD.DateTimeDigitized] = new_date
-    exif_dict['Exif'][piexif.ExifIFD.OffsetTime] = '+10:00'
+    exif_dict['Exif'][piexif.ExifIFD.OffsetTime] = timezone
+
     exif_bytes = piexif.dump(exif_dict)
     piexif.insert(exif_bytes, filename)
 
