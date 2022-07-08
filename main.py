@@ -11,6 +11,16 @@ def get_tree(path):
     return tree
 
 
+def get_paths(base_path, tree):
+    paths = []
+
+    for path, data in tree.items():
+        for filename in data[1]:
+            paths.append(os.path.join(base_path, path, filename))
+
+    return paths
+
+
 def get_files(tree):
     files = []
     for data in tree.values():
