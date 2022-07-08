@@ -29,18 +29,20 @@ def get_files(tree):
     return files
 
 
-def copy_forward(sours_path, target_path, sours_tree, target_tree):
-    if sours_tree == target_tree:
-        print('All is up to date')
+def copy_forward(source_path, target_path, source_tree, target_tree, verbose=True):
+    if source_tree == target_tree:
+        if verbose:
+            print('All is up to date')
         return
 
-    for folder_path, data in sours_tree.items():
+    for folder_path, data in source_tree.items():
         for file in data[1]:
             if folder_path in target_tree and file in target_tree[folder_path][1]:
                 continue
             else:
-                print('miss', os.path.join(sours_path, folder_path, file))
-                shutil.copy(os.path.join(sours_path, folder_path, file), os.path.join(target_path, folder_path, file))
+                if verbose:
+                    print('miss', os.path.join(source_path, folder_path, file))
+                shutil.copy(os.path.join(source_path, folder_path, file), os.path.join(target_path, folder_path, file))
 
 
 if __name__ == "__main__":
