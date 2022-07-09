@@ -10,31 +10,39 @@ def get_overlapped_filenames(files):
     return overlapped
 
 
-def rename_overlapped(tree, files, base_path, dirs=None, dry_run=False, verbose=True):
-    overlapped_filenames = get_overlapped_filenames(files)
+def get_name_path_dict(tree):
+    name_path_dict = {}
 
-    overlapped = []
     for path, data in tree.items():
-        if dirs and path in dirs:
+        for filename in data[1]:
+            if filename in name_path_dict:
+                name_path_dict[filename].add(path)
+            else:
+                name_path_dict[filename] = set(path)
+
+    return name_path_dict
+
+
+def rename_overlapped(tree, base_path, dry_run=False, verbose=True):
+    overlapped = get_name_path_dict(tree)
+    overlapped = {filename: paths for filename, paths in overlapped if len(paths) > 1}
+
+    for filename, paths in overlapped:
+        if len(paths) < 2:
             continue
 
-        for filename in data[1]:
-            if filename in overlapped_filenames:
-                overlapped.append([path, filename])
-    overlapped.sort(key=lambda x: x[1])
+        if verbose:
+            print(f'{filename} appears {len(paths)} times:')
 
-    if verbose:
-        for path, filename in overlapped:
-            print(os.path.join(path, filename))
-        c = collections.Counter(list(map(lambda x: x[0], overlapped)))
-        print(c)
+        for path in paths:
+            if verbose:
+                print(os.path.join(base_path, path, filename))
 
-    if not dry_run:
-        for path, filename in overlapped:
-            os.rename(
-                os.path.join(base_path, path, filename),
-                os.path.join(base_path, path, shortuuid.uuid()) + os.path.splitext(filename)[1]
-            )
+            if not dry_run:
+                os.rename(
+                    os.path.join(base_path, path, filename),
+                    os.path.join(base_path, path, shortuuid.uuid()) + os.path.splitext(filename)[1]
+                )
 
 
 def rename_all(base_path, tree):
