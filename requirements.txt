@@ -1,3 +1,4 @@
 piexif
 shortuuid
 pypiwin32
+Pillow
