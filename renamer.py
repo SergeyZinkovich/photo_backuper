@@ -18,7 +18,7 @@ def get_name_path_dict(tree):
             if filename in name_path_dict:
                 name_path_dict[filename].add(path)
             else:
-                name_path_dict[filename] = set(path)
+                name_path_dict[filename] = {path}
 
     return name_path_dict
 
