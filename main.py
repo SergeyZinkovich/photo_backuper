@@ -45,6 +45,7 @@ def copy_forward(source_path, target_path, source_tree, target_tree, verbose=Tru
             else:
                 if verbose:
                     print('miss', os.path.join(source_path, folder_path, file))
+                os.makedirs(os.path.join(target_path, folder_path), exist_ok=True)
                 shutil.copy(os.path.join(source_path, folder_path, file), os.path.join(target_path, folder_path, file))
 
 
