@@ -1,5 +1,6 @@
 import shutil
 from image_comparer import duplicate_exists
+from tree_differ import difference_report
 from renamer import *
 
 
