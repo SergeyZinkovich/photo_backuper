@@ -32,12 +32,12 @@ def get_tree_diff(source_tree, target_path, target_tree):
     for path, data in target_tree.items():
         for folder in data[0]:
             if path not in source_tree or folder not in source_tree[path][0]:
-                folders.append(os.path.join(target_path, path, folder))
+                folders.append(os.path.normpath(os.path.join(target_path, path, folder)))
 
         for file in data[1]:
             if path not in source_tree:
-                files_in_folders.append(os.path.join(target_path, path, file))
+                files_in_folders.append(os.path.normpath(os.path.join(target_path, path, file)))
             elif file not in source_tree[path][1]:
-                files.append(os.path.join(target_path, path, file))
+                files.append(os.path.normpath(os.path.join(target_path, path, file)))
 
     return folders, files_in_folders, files

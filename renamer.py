@@ -36,7 +36,7 @@ def rename_overlapped(tree, base_path, dry_run=False, verbose=True):
 
         for path in paths:
             if verbose:
-                print(os.path.join(base_path, path, filename))
+                print(os.path.normpath(os.path.join(base_path, path, filename)))
 
             if not dry_run:
                 os.rename(

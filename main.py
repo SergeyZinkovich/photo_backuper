@@ -18,7 +18,7 @@ def get_paths(base_path, tree):
 
     for path, data in tree.items():
         for filename in data[1]:
-            paths.append(os.path.join(base_path, path, filename))
+            paths.append(os.path.normpath(os.path.join(base_path, path, filename)))
 
     return paths
 
@@ -44,7 +44,7 @@ def copy_forward(source_path, target_path, source_tree, target_tree, verbose=Tru
                 continue
             else:
                 if verbose:
-                    print('miss', os.path.join(source_path, folder_path, file))
+                    print('Copied', os.path.normpath(os.path.join(source_path, folder_path, file)))
                 os.makedirs(os.path.join(target_path, folder_path), exist_ok=True)
                 shutil.copy(os.path.join(source_path, folder_path, file), os.path.join(target_path, folder_path, file))
 
@@ -61,13 +61,14 @@ def delete_with_existence_check(source_tree, target_path, target_tree, check_by_
                 if len(name_path_dict[file]) > 1 and \
                         (not check_by_pixels or duplicate_exists(target_path, folder_path, file, name_path_dict[file])):
                     if verbose:
-                        print('Deleted', os.path.join(target_path, folder_path, file))
+                        print('Deleted', os.path.normpath(os.path.join(target_path, folder_path, file)))
 
                     if not dry_run:
                         os.remove(os.path.join(target_path, folder_path, file))
                     name_path_dict[file].remove(folder_path)
                 elif verbose:
-                    print('Need to delete, but there is no copy', os.path.join(target_path, folder_path, file))
+                    print('Need to delete, but there is no copy',
+                          os.path.normpath(os.path.join(target_path, folder_path, file)))
 
 
 def delete_empty_dirs(base_path, source_check=False, source_tree=None, verbose=True):
@@ -80,10 +81,10 @@ def delete_empty_dirs(base_path, source_check=False, source_tree=None, verbose=T
                 pass
             else:
                 if verbose:
-                    print('Deleted', os.path.join(base_path, root))
+                    print('Deleted', os.path.normpath(os.path.join(base_path, root)))
 
         elif verbose and not os.listdir(os.path.join(base_path, root)):
-            print('Empty directory in source', os.path.join(base_path, root))
+            print('Empty directory in source', os.path.normpath(os.path.join(base_path, root)))
 
 
 if __name__ == "__main__":
