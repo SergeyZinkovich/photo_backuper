@@ -1,9 +1,7 @@
 from datetime import datetime, timedelta
 import piexif
 import os
-import pythoncom
-from win32com.propsys import propsys, pscon
-from win32com.shell import shellcon
+from video_metadata_setter import change_video_taken_date, get_video_taken_date
 
 
 def change_photo_taken_date(filename: str, taken_date: datetime, timezone: str = '+10:00'):
@@ -19,23 +17,22 @@ def change_photo_taken_date(filename: str, taken_date: datetime, timezone: str =
     piexif.insert(exif_bytes, filename)
 
 
-def change_video_taken_date(filename: str, taken_date: datetime):
-    properties = propsys.SHGetPropertyStoreFromParsingName(filename, None, shellcon.GPS_READWRITE,
-                                                           propsys.IID_IPropertyStore)
-
-    properties.SetValue(pscon.PKEY_Media_DateEncoded, propsys.PROPVARIANTType(taken_date, pythoncom.VT_DATE))
-    properties.Commit()
+def _choose_func_by_extension(filename: str):
+    extension = os.path.splitext(filename)[-1]
+    if extension in ['.jpg', '.JPG']:
+        return change_photo_taken_date
+    elif extension in ['.mp4']:  # Todo: add .Mov and .3gp support
+        return change_video_taken_date
+    else:
+        print(f'Unrecognized extension {extension}')
+        raise Exception(f'Unrecognized extension {extension}')
 
 
 def change_taken_date(filename: str, taken_date: datetime, change_modification_time: bool = False,
                       set_taken_date_to_access_time: bool = False):
-    extension = os.path.splitext(filename)[-1]
-    if extension in ['.jpg', '.JPG']:
-        func = change_photo_taken_date
-    elif extension in ['.mp4', '.MOV', '.3gp']:
-        func = change_video_taken_date
-    else:
-        print(f'Unrecognized extension {extension}')
+    try:
+        func = _choose_func_by_extension(filename)
+    except Exception as e:
         return
 
     access_and_modification_time = (os.stat(filename).st_atime, os.stat(filename).st_mtime)
