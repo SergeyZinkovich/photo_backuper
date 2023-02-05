@@ -4,6 +4,15 @@ import os
 from video_metadata_setter import change_video_taken_date, get_video_taken_date
 
 
+def get_photo_taken_date(filename: str):
+    exif_dict = piexif.load(filename)
+    if exif_dict['0th'][piexif.ImageIFD.DateTime] or exif_dict['Exif'][piexif.ExifIFD.DateTimeOriginal] or \
+            exif_dict['Exif'][piexif.ExifIFD.DateTimeDigitized]:
+        return exif_dict['Exif'][piexif.ExifIFD.DateTimeDigitized]
+
+    return None
+
+
 def change_photo_taken_date(filename: str, taken_date: datetime, timezone: str = '+10:00'):
     new_date = taken_date.strftime('%Y:%m:%d %H:%M:%S')
 
