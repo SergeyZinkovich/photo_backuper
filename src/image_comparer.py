@@ -11,7 +11,7 @@ def images_equal(path1, path2):
 
 def duplicate_exists(base_path, folder_path, filename, paths):
     extension = os.path.splitext(filename)[-1]
-    if extension not in ['.jpg', '.JPG']:
+    if extension not in ['.jpg', '.JPG', '.jpeg']:
         print(f'WARNING {os.path.join(base_path, folder_path, filename)} can\'t be checked by pixels')
         return True
 

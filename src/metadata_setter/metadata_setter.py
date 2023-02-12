@@ -28,7 +28,7 @@ def change_photo_taken_date(filename: str, taken_date: datetime, timezone: str =
 
 def _choose_func_by_extension(filename: str):
     extension = os.path.splitext(filename)[-1]
-    if extension in ['.jpg', '.JPG']:
+    if extension in ['.jpg', '.JPG', '.jpeg']:
         return change_photo_taken_date
     elif extension in ['.mp4']:  # Todo: add .Mov and .3gp support
         return change_video_taken_date
