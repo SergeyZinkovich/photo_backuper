@@ -1,6 +1,6 @@
 import os
 import unittest
-from src import video_metadata_setter
+from src.metadata_setter import video_metadata_setter
 from datetime import datetime, timezone
 import shutil
 
