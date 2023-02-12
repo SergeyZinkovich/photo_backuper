@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import piexif
 import os
-from video_metadata_setter import change_video_taken_date, get_video_taken_date
+from .video_metadata_setter import change_video_taken_date, get_video_taken_date
 
 
 def get_photo_taken_date(filename: str):

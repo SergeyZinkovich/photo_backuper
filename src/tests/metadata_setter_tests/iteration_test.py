@@ -1,6 +1,6 @@
 import unittest
 import shutil
-import metadata_setter
+from src import metadata_setter
 from datetime import datetime
 from main import get_tree, get_paths
 

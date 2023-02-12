@@ -1,7 +1,7 @@
 import shutil
-from image_comparer import duplicate_exists
-from tree_differ import difference_report
-from renamer import *
+from src.image_comparer import duplicate_exists
+from src.renamer import *
+from src.metadata_setter import get_video_taken_date
 
 
 def get_tree(path):
@@ -88,15 +88,27 @@ def delete_empty_dirs(base_path, source_check=False, source_tree=None, verbose=T
 
 
 if __name__ == "__main__":
-    sours_path = 'F:\\Saver\\Фото'
-    target_path = 'F:\\Saver\\Фото'
+    source_path = 'F:\\test'
+    target_path = 'E:\\test'
 
-    sours_tree = get_tree(sours_path)
-    sours_files = get_files(sours_tree)
+    source_tree = get_tree(source_path)
+    source_files = get_files(source_tree)
     target_tree = get_tree(target_path)
     target_files = get_files(target_tree)
 
-    rename_overlapped(sours_tree, sours_files, sours_path)
+    get_video_taken_date('F:\\Saver\\Фото\\просто фотки\\шкалка\\олимпиец.mp4')
 
-    copy_forward(sours_path, sours_files, sours_tree, target_tree)
+    # delete_empty_dirs('E:\\test', source_check=True, source_tree=source_tree)
 
+    # difference_report(source_path, source_tree, target_path, target_tree)
+
+    # delete_with_existence_check(source_tree, target_path, target_tree, dry_run=True)
+
+    # change_taken_date('C:\\Users\\Saver\\Downloads\\video.mp4', datetime.datetime(2022, 4, 4, 2, 2, 2))
+    # change_taken_date_for_all(get_paths(source_path, source_tree), datetime.datetime(2022, 5, 29, 15, 2, 2), increase_date_in_sort_order=True)
+
+    # rename_all(source_path, source_tree)
+
+    # rename_overlapped(source_tree, source_files, source_path)
+    #
+    # copy_forward(source_path, target_path, source_tree, target_tree)
