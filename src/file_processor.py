@@ -1,7 +1,7 @@
 import shutil
 import os
-from renamer import get_name_path_dict
-from image_comparer import duplicate_exists
+from .renamer import get_name_path_dict
+from .image_comparer import duplicate_exists
 
 
 def get_tree(path):
