@@ -74,14 +74,10 @@ def delete_with_existence_check(source_tree, target_path, target_tree, check_by_
 def delete_empty_dirs(base_path, source_check=False, source_tree=None, verbose=True):
     for root, dirs, files in os.walk(base_path, topdown=False):
         root = os.path.relpath(root, base_path)
-        if not source_check or root not in source_tree:
-            try:
-                os.rmdir(os.path.join(base_path, root))
-            except OSError:
-                pass
-            else:
-                if verbose:
-                    print('Deleted', os.path.normpath(os.path.join(base_path, root)))
+        if not os.listdir(os.path.join(base_path, root)) and (not source_check or root not in source_tree):
+            os.rmdir(os.path.join(base_path, root))
+            if verbose:
+                print('Deleted', os.path.normpath(os.path.join(base_path, root)))
 
         elif verbose and not os.listdir(os.path.join(base_path, root)):
             print('Empty directory in source', os.path.normpath(os.path.join(base_path, root)))
