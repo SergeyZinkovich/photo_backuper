@@ -23,15 +23,6 @@ def get_paths(base_path, tree):
     return paths
 
 
-def get_files(tree):
-    files = []
-
-    for data in tree.values():
-        files += data[1]
-
-    return files
-
-
 def copy_forward(source_path, target_path, source_tree, target_tree, verbose=True):
     if source_tree == target_tree:
         if verbose:

@@ -3,7 +3,12 @@ import os
 import shortuuid
 
 
-def get_overlapped_filenames(files):
+def get_overlapped_filenames(tree):
+    files = []
+
+    for data in tree.values():
+        files += data[1]
+
     c = collections.Counter(files)
     overlapped = [key for key, val in c.items() if val > 1]
 
