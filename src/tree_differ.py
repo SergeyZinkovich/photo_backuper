@@ -1,7 +1,8 @@
 import os.path
 
 
-def difference_report(source_path, source_tree, target_path, target_tree, full_report=True):
+def difference_report(source_path: str, source_tree: dict, target_path: str, target_tree: dict,
+                      full_report: bool = True):
     extra_folders, extra_files_in_folders, extra_files = get_tree_diff(source_tree, target_path, target_tree)
     missed_folders, missed_files_in_folders, missed_files = get_tree_diff(target_tree, source_path, source_tree)
 
@@ -24,7 +25,7 @@ def difference_report(source_path, source_tree, target_path, target_tree, full_r
     print_report_part(missed_files, 'Missed files')
 
 
-def get_tree_diff(source_tree, target_path, target_tree):
+def get_tree_diff(source_tree: dict, target_path: str, target_tree: dict):
     folders = []
     files_in_folders = []
     files = []

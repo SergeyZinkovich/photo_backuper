@@ -4,7 +4,7 @@ from . import renamer
 from . import image_comparer
 
 
-def get_tree(path):
+def get_tree(path: str):
     tree = {}
     for root, dirs, files in os.walk(path):
         root = os.path.relpath(root, path)
@@ -13,7 +13,7 @@ def get_tree(path):
     return tree
 
 
-def get_paths(base_path, tree):
+def get_paths(base_path: str, tree: dict):
     paths = []
 
     for path, data in tree.items():
@@ -23,7 +23,7 @@ def get_paths(base_path, tree):
     return paths
 
 
-def copy_forward(source_path, target_path, source_tree, target_tree, verbose=True):
+def copy_forward(source_path: str, target_path: str, source_tree: dict, target_tree: dict, verbose: bool = True):
     if source_tree == target_tree:
         if verbose:
             print('All is up to date')
@@ -42,8 +42,8 @@ def copy_forward(source_path, target_path, source_tree, target_tree, verbose=Tru
                     print('Copied', os.path.normpath(os.path.join(source_path, folder_path, file)))
 
 
-def delete_with_existence_check(source_tree, target_path, target_tree, check_by_pixels=True, verbose=True,
-                                dry_run=False):
+def delete_with_existence_check(source_tree: dict, target_path: str, target_tree: dict, check_by_pixels: bool = True,
+                                verbose: bool = True, dry_run: bool = False):
     name_path_dict = renamer.get_name_path_dict(target_tree)
 
     for folder_path, data in target_tree.items():
@@ -64,7 +64,7 @@ def delete_with_existence_check(source_tree, target_path, target_tree, check_by_
                           os.path.normpath(os.path.join(target_path, folder_path, file)))
 
 
-def delete_empty_dirs(base_path, source_check=False, source_tree=None, verbose=True):
+def delete_empty_dirs(base_path: str, source_check: bool = False, source_tree: dict = None, verbose: bool = True):
     for root, dirs, files in os.walk(base_path, topdown=False):
         root = os.path.relpath(root, base_path)
         if not os.listdir(os.path.join(base_path, root)) and (not source_check or root not in source_tree):
