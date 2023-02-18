@@ -1,14 +1,14 @@
 import shutil
 import os
-from .renamer import get_name_path_dict
-from .image_comparer import duplicate_exists
+from . import renamer
+from . import image_comparer
 
 
 def get_tree(path):
     tree = {}
-    for i in os.walk(path):
-        key = os.path.relpath(i[0], path)
-        tree[key] = [i[1], i[2]]
+    for root, dirs, files in os.walk(path):
+        root = os.path.relpath(root, path)
+        tree[root] = [dirs, files]
 
     return tree
 
@@ -39,19 +39,21 @@ def copy_forward(source_path, target_path, source_tree, target_tree, verbose=Tru
         return
 
     for folder_path, data in source_tree.items():
+        if len(data[1]):
+            os.makedirs(os.path.join(target_path, folder_path), exist_ok=True)
+
         for file in data[1]:
             if folder_path in target_tree and file in target_tree[folder_path][1]:
                 continue
             else:
+                shutil.copy(os.path.join(source_path, folder_path, file), os.path.join(target_path, folder_path, file))
                 if verbose:
                     print('Copied', os.path.normpath(os.path.join(source_path, folder_path, file)))
-                os.makedirs(os.path.join(target_path, folder_path), exist_ok=True)
-                shutil.copy(os.path.join(source_path, folder_path, file), os.path.join(target_path, folder_path, file))
 
 
 def delete_with_existence_check(source_tree, target_path, target_tree, check_by_pixels=True, verbose=True,
                                 dry_run=False):
-    name_path_dict = get_name_path_dict(target_tree)
+    name_path_dict = renamer.get_name_path_dict(target_tree)
 
     for folder_path, data in target_tree.items():
         for file in data[1]:
@@ -59,7 +61,7 @@ def delete_with_existence_check(source_tree, target_path, target_tree, check_by_
                 continue
             else:
                 if len(name_path_dict[file]) > 1 and \
-                        (not check_by_pixels or duplicate_exists(target_path, folder_path, file, name_path_dict[file])):
+                        (not check_by_pixels or image_comparer.duplicate_exists(target_path, folder_path, file, name_path_dict[file])):
                     if verbose:
                         print('Deleted', os.path.normpath(os.path.join(target_path, folder_path, file)))
 
