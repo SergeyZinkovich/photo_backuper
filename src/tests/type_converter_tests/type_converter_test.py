@@ -15,7 +15,7 @@ class TestTypeConverter(unittest.TestCase):
     def tearDown(self) -> None:
         shutil.rmtree(self.RESOURCES_TEMP_DIR)
 
-    def test_change_date_for_all(self):
+    def test_convert_all_to_jpeg(self):
         """
         Tests that convert_all_to_jpeg converts webp (not binary check) and file count has no changes
         """
@@ -27,6 +27,22 @@ class TestTypeConverter(unittest.TestCase):
         paths = os.listdir(self.RESOURCES_TEMP_DIR)
         for i in paths:
             self.assertNotEqual(i.split('.')[1], 'webp')
+        self.assertEqual(len(paths), 3)
+
+    def test_change_alias_extension_for_all(self):
+        """
+        Tests change_alias_extension_to_jpeg
+        """
+        tree = get_tree(self.RESOURCES_TEMP_DIR)
+        paths = get_paths(self.RESOURCES_TEMP_DIR, tree)
+
+        type_converter.convert_all_to_jpeg(paths)
+        type_converter.change_all_alias_extensions_to_jpeg(paths)
+
+        paths = os.listdir(self.RESOURCES_TEMP_DIR)
+        for i in paths:
+            self.assertNotEqual(i.split('.')[1], 'webp')
+            self.assertNotEqual(i.split('.')[1], 'JPG')
         self.assertEqual(len(paths), 3)
 
 
