@@ -69,9 +69,9 @@ class TestVideoMetadataSetter(unittest.TestCase):
 
     def test_setter_for_empty_taken_date(self):
         # Create file copy
-        mp4_temp_file_example = '.'.join(self.MP4_FILE_EXAMPLE.split('.')[:-1]) \
+        mp4_temp_file_example = os.path.splitext(self.MP4_FILE_EXAMPLE)[0] \
                                 + '_temp.' \
-                                + self.MP4_FILE_EXAMPLE.split('.')[-1]
+                                + os.path.splitext(self.MP4_FILE_EXAMPLE)[1]
         shutil.copy(self.MP4_FILE_EXAMPLE, mp4_temp_file_example)
 
         # Set taken date

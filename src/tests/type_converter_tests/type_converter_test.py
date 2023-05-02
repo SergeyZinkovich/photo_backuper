@@ -26,7 +26,7 @@ class TestTypeConverter(unittest.TestCase):
 
         paths = os.listdir(self.RESOURCES_TEMP_DIR)
         for i in paths:
-            self.assertNotEqual(i.split('.')[1], 'webp')
+            self.assertNotEqual(os.path.splitext(i)[1], '.webp')
         self.assertEqual(len(paths), 3)
 
     def test_change_alias_extension_for_all(self):
@@ -41,8 +41,8 @@ class TestTypeConverter(unittest.TestCase):
 
         paths = os.listdir(self.RESOURCES_TEMP_DIR)
         for i in paths:
-            self.assertNotEqual(i.split('.')[1], 'webp')
-            self.assertNotEqual(i.split('.')[1], 'JPG')
+            self.assertNotEqual(os.path.splitext(i)[1], 'webp')
+            self.assertNotEqual(os.path.splitext(i)[1], 'JPG')
         self.assertEqual(len(paths), 3)
 
 
