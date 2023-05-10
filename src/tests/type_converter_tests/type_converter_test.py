@@ -1,7 +1,7 @@
 import os
 import unittest
 import shutil
-from src import type_converter
+from src.executor import type_converter_executor
 from main import get_tree, get_paths
 
 
@@ -19,10 +19,7 @@ class TestTypeConverter(unittest.TestCase):
         """
         Tests that convert_all_to_jpeg converts webp (not binary check) and file count has no changes
         """
-        tree = get_tree(self.RESOURCES_TEMP_DIR)
-        paths = get_paths(self.RESOURCES_TEMP_DIR, tree)
-
-        type_converter.convert_all_to_jpeg(paths)
+        type_converter_executor.convert_all_to_jpeg(self.RESOURCES_TEMP_DIR)
 
         paths = os.listdir(self.RESOURCES_TEMP_DIR)
         for i in paths:
@@ -33,11 +30,8 @@ class TestTypeConverter(unittest.TestCase):
         """
         Tests change_alias_extension_to_jpeg
         """
-        tree = get_tree(self.RESOURCES_TEMP_DIR)
-        paths = get_paths(self.RESOURCES_TEMP_DIR, tree)
-
-        type_converter.convert_all_to_jpeg(paths)
-        type_converter.change_all_alias_extensions_to_jpeg(paths)
+        type_converter_executor.convert_all_to_jpeg(self.RESOURCES_TEMP_DIR)
+        type_converter_executor.change_all_alias_extensions_to_jpeg(self.RESOURCES_TEMP_DIR)
 
         paths = os.listdir(self.RESOURCES_TEMP_DIR)
         for i in paths:
