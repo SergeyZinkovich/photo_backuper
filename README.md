@@ -1,4 +1,4 @@
-##How to setup run from any directory (Windows)
+## How to setup run from any directory (Windows)
 
 1) Setup defalt program to python interpreter for '.py' files
 2) Add '.py' to PATHEXT system variable
