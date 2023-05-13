@@ -2,7 +2,6 @@ import os
 import unittest
 import shutil
 from src.executor import type_converter_executor
-from main import get_tree, get_paths
 
 
 class TestTypeConverter(unittest.TestCase):

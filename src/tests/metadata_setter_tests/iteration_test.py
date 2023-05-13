@@ -2,7 +2,7 @@ import unittest
 import shutil
 from src import metadata_setter
 from datetime import datetime
-from main import get_tree, get_paths
+from src.file_processor import get_tree, get_paths
 
 
 class TestMetadataSetter(unittest.TestCase):
