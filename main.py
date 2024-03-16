@@ -1,6 +1,6 @@
 from src.image_comparer import duplicate_exists
 from src.metadata_setter import get_video_taken_date
-from src.type_converter import convert_all_to_jpeg
+from src.type_converter import convert_all
 from src.file_processor import *
 
 

@@ -2,3 +2,5 @@ piexif
 shortuuid
 pypiwin32
 Pillow
+pillow-heif
+MoviePy
